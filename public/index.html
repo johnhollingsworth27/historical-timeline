@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Historical Timeline</title>
+    <link rel="stylesheet" href="styles/styles.css">
+</head>
+<body>
+    <h1>Historical Timeline</h1>
+
+    <!-- Event Form -->
+    <form id="event-form">
+        <label for="startYear">Start Year:</label>
+        <input type="number" id="startYear" name="startYear" required>
+
+        <label for="startEra">Start Era:</label>
+        <select id="startEra" name="startEra" required>
+            <option value="BCE">BCE</option>
+            <option value="CE">CE</option>
+        </select>
+
+        <label for="endYear">End Year:</label>
+        <input type="number" id="endYear" name="endYear" required>
+
+        <label for="endEra">End Era:</label>
+        <select id="endEra" name="endEra" required>
+            <option value="BCE">BCE</option>
+            <option value="CE">CE</option>
+        </select>
+
+        <label for="region">Region:</label>
+        <select id="region" name="region" required>
+            <option value="Europe">Europe</option>
+            <option value="Africa & Middle East">Africa & Middle East</option>
+            <option value="Asia">Asia</option>
+            <option value="Americas">Americas</option>
+        </select>
+
+        <label for="description">Description:</label>
+        <input type="text" id="description" name="description" required>
+
+        <button type="submit">Add Event</button>
+    </form>
+
+    <!-- Main timeline grid container -->
+    <div id="timeline-grid">
+        <div class="grid-header">Year</div>
+        <div class="grid-header">Europe</div>
+        <div class="grid-header">Africa & Middle East</div>
+        <div class="grid-header">Asia</div>
+        <div class="grid-header">Americas</div>
+    
+        <div class="year-column"></div> <!-- Years will be dynamically inserted here -->
+        <div class="region-column" id="europe-column"></div> <!-- Europe -->
+        <div class="region-column" id="africa-middle-east-column"></div> <!-- Africa & Middle East -->
+        <div class="region-column" id="asia-column"></div> <!-- Asia -->
+        <div class="region-column" id="americas-column"></div> <!-- Americas -->
+    </div>
+    
+
+    <script src="scripts/app.js"></script>
+</body>
+</html>

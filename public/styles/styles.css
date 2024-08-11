@@ -1,0 +1,87 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 20px;
+}
+
+h1 {
+    text-align: center;
+}
+
+#timeline-grid {
+    display: grid;
+    grid-template-columns: 1fr repeat(4, 2fr); /* 1 column for years, 4 equally spaced columns for regions */
+    gap: 10px;
+    overflow-x: auto; /* Allows horizontal scrolling */
+}
+
+.grid-header {
+    font-weight: bold;
+    background-color: #f0f0f0;
+    padding: 10px;
+    text-align: center;
+    position: sticky;
+    top: 0;
+}
+
+.year-column, .region-column {
+    padding: 10px;
+    border: 1px solid #ccc;
+    height: auto; /* Ensure height is flexible */
+    min-height: 3000px; /* Set a minimum height to ensure it displays all years */
+}
+
+.year-column {
+    background-color: #e6e6e6;
+}
+
+.region-column {
+    background-color: #ffffff;
+    padding: 10px;
+    border: 1px solid #ccc;
+    min-height: 3000px; /* Ensure sufficient height */
+}
+
+.grid-cell {
+    padding: 5px;
+    margin-bottom: 10px;
+    background-color: #e6e6e6;
+    text-align: center;
+    visibility: visible; /* Ensure that the grid cells are visible */
+}
+
+
+.year-column div, .region-column div {
+    margin-bottom: 10px;
+    padding: 5px;
+    text-align: center;
+}
+form {
+    margin-bottom: 20px;
+}
+
+form label {
+    margin-right: 10px;
+}
+
+form input, form select, form button {
+    margin: 5px;
+    padding: 5px;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
