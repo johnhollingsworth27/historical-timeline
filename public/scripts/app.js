@@ -99,7 +99,7 @@ async function loadEvents() {
                     eventElement.textContent = `${event.description} (${event.startYear}${event.startEra} - ${event.endYear}${event.endEra}, ${event.region})`;
 
                     // If the duration is under 15 years, add the hover effect class
-                    if (duration < 15) {
+                    if (duration < 50) {
                         eventElement.classList.add('event-box-hover');
                     }
 
