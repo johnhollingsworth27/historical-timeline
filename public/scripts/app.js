@@ -14,14 +14,14 @@ document.addEventListener('DOMContentLoaded', () => {
             const event = { startYear, startEra, endYear, endEra, region, description };
 
             await addEvent(event);
-            loadEvents();  // Reload the events after adding a new one
+            loadEvents();
 
             eventForm.reset();
         });
     }
 
-    generateYearColumn();  // Generate the year column only once when the page loads
-    loadEvents();          // Load events once when the page loads
+    generateYearColumn();
+    loadEvents();
 });
 
 // Function to round the year to the nearest decade
@@ -37,6 +37,8 @@ async function loadEvents() {
     document.querySelectorAll('.region-column').forEach(column => {
         column.innerHTML = '';  // Clear the region columns before reloading events
     });
+
+    const regionRows = {}; // Initialize the regionRows object to keep track of event stacking
 
     events.forEach(event => {
         const columnSelector = getColumnSelector(event.region);
@@ -54,25 +56,66 @@ async function loadEvents() {
                 const endRow = document.getElementById(endRowId);
 
                 if (startRow && endRow) {
-                    // Create the event element
+                    // Create subcolumns if necessary
+                    const regionKey = `${event.region}-${roundedStartYear}-${roundedEndYear}`;
+                    if (!regionRows[regionKey]) {
+                        regionRows[regionKey] = []; // Initialize as an array
+                    }
+
+                    const subcolumnIndex = regionRows[regionKey].length;
+                    const subcolumnWidth = 100 / (subcolumnIndex + 1); // Calculate the width for subcolumns// Adjust all existing subcolumns to ensure they fit
+                    regionRows[regionKey].forEach((subcol, idx) => {
+                        subcol.style.width = `${subcolumnWidth}%`;
+                        subcol.style.left = `${idx * subcolumnWidth}%`;
+                    });
+
+                    // Calculate the new subcolumn's width and left position
+                    const subcolumn = document.createElement('div');
+                    subcolumn.style.width = `${subcolumnWidth - 2}%`;
+                    subcolumn.style.position = 'absolute';
+
+                    // Calculate left position normally for every subcolumn
+                    subcolumn.style.left = `${subcolumnIndex * subcolumnWidth}%`;
+                    subcolumn.style.top = `${startRow.offsetTop}px`;
+                    subcolumn.style.height = `${endRow.offsetTop - startRow.offsetTop}px`;
+
+                    // Calculate the duration of the event considering the era
+                    let duration;
+                    if (event.startEra === 'CE' && event.endEra === 'CE') {
+                        duration = event.endYear - event.startYear; // Normal calculation for CE
+                    } else if (event.startEra === 'BCE' && event.endEra === 'BCE') {
+                        duration = event.startYear - event.endYear; // Reverse calculation for BCE
+                    } else if (event.startEra === 'BCE' && event.endEra === 'CE') {
+                        // If the event crosses from BCE to CE, calculate accordingly
+                        duration = event.startYear + event.endYear; // Consider the crossing over 0
+                    } else {
+                        console.error('Unsupported era combination');
+                        duration = 0; // Fallback in case of an unsupported era combination
+                    }
+
+                    // Create event element within the subcolumn
                     const eventElement = document.createElement('div');
                     eventElement.className = 'event-box';
-                    eventElement.textContent = `${event.description} (${event.startYear} ${event.startEra} - ${event.endYear} ${event.endEra}, ${event.region})`;
+                    eventElement.textContent = `${event.description} (${event.startYear}${event.startEra} - ${event.endYear}${event.endEra}, ${event.region})`;
 
-                    // Position the event element by aligning with the start row
-                    eventElement.style.position = 'absolute';
-                    eventElement.style.top = `${startRow.offsetTop}px`;
+                    // If the duration is under 15 years, add the hover effect class
+                    if (duration < 15) {
+                        eventElement.classList.add('event-box-hover');
+                    }
 
-                    // Calculate and set the height based on the difference in years
-                    const height = endRow.offsetTop - startRow.offsetTop + endRow.offsetHeight;
-                    eventElement.style.height = `${height}px`;
+                    eventElement.style.top = '0px';
+                    eventElement.style.height = '100%';
+                    eventElement.style.boxSizing = 'border-box';
+                    eventElement.style.backgroundColor = 'rgba(0, 0, 255, 0.1)';
+                    eventElement.style.border = '1px solid #000';
 
-                    // Append the event element to the region column
-                    regionColumn.appendChild(eventElement);
+                    subcolumn.appendChild(eventElement);
+                    regionColumn.appendChild(subcolumn);
 
-                    console.log(`Event '${event.description}' aligned at row: ${startRowId} to ${endRowId}`);
+                    // Store this subcolumn in the regionRows array
+                    regionRows[regionKey].push(subcolumn);
                 } else {
-                    console.error(`Row not found for start or end year: ${event.startYear} ${event.startEra} to ${event.endYear} ${event.endEra}`);
+                    console.error(`Row not found for start or end year: ${event.startYear}${event.startEra} to ${event.endYear}${event.endEra}`);
                 }
             } else {
                 console.error(`Column not found for selector: ${columnSelector}`);
@@ -131,7 +174,7 @@ function getColumnSelector(region) {
         case 'africa & middle east':
             selector = '#africa-middle-east-column';
             break;
-        case 'asia & Pacific islands':
+        case 'asia & pacific islands':
             selector = '#asia-pacific-islands-column';
             break;
         case 'americas':

@@ -77,4 +77,33 @@ form input, form select, form button {
     left: 0; /* Ensure the event box starts at the left edge of the region column */
     right: 0; /* Ensure the event box spans the full width of the region column */
     border: 1px solid #ccc;
+
+    overflow: hidden; 
+    text-overflow: ellipsis;
+}
+
+
+.event-box-hover {
+    transition: all 0.3s ease;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center; /* Center the text horizontally */
+}
+
+.event-box-hover:hover {
+    transform: scale(2); /* Enlarges the event box by 1.5 times */
+    height: 300%;
+    z-index: 1000; /* Brings the hovered event box to the front */
+    overflow: visible; /* Allows the entire text to be visible */
+    white-space: normal; /* Allows text to wrap */
+    background-color: rgba(0, 0, 255, 0.2); /* Slightly darker background on hover */
+    padding: 30px; /* Adds padding for better readability */
+    align-items: center; /* Center vertically */
+    justify-content: center; /* Center horizontally */
+    text-align: center; /* Center the text inside the box */
+
+
+
 }
