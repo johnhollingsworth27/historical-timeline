@@ -26,19 +26,18 @@ h1 {
 .year-column, .region-column {
     padding: 10px;
     border: 1px solid #ccc;
-    height: auto; /* Ensure height is flexible */
     min-height: 3000px; /* Set a minimum height to ensure it displays all years */
+    position: relative; /* Required for absolute positioning of events */
 }
 
 .year-column {
     background-color: #e6e6e6;
+    display: grid;
+    grid-template-rows: repeat(auto-fill, 1fr); /* Create rows for each year */
 }
 
 .region-column {
-    background-color: #ffffff;
-    padding: 10px;
-    border: 1px solid #ccc;
-    min-height: 3000px; /* Ensure sufficient height */
+    position: relative; /* Needed for absolute positioning of events */
 }
 
 .grid-cell {
@@ -46,15 +45,15 @@ h1 {
     margin-bottom: 10px;
     background-color: #e6e6e6;
     text-align: center;
-    visibility: visible; /* Ensure that the grid cells are visible */
+    visibility: visible;
 }
-
 
 .year-column div, .region-column div {
     margin-bottom: 10px;
     padding: 5px;
     text-align: center;
 }
+
 form {
     margin-bottom: 20px;
 }
@@ -68,20 +67,43 @@ form input, form select, form button {
     padding: 5px;
 }
 
+.event-box {
+    position: absolute;
+    background-color: #e6e6e6;
+    padding: 5px;
+    text-align: center;
+    width: 100%;
+    box-sizing: border-box;
+    left: 0; /* Ensure the event box starts at the left edge of the region column */
+    right: 0; /* Ensure the event box spans the full width of the region column */
+    border: 1px solid #ccc;
+
+    overflow: hidden; 
+    text-overflow: ellipsis;
+}
+
+
+.event-box-hover {
+    transition: all 0.3s ease;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center; /* Center the text horizontally */
+}
+
+.event-box-hover:hover {
+    transform: scale(2); /* Enlarges the event box by 1.5 times */
+    height: 300%;
+    z-index: 1000; /* Brings the hovered event box to the front */
+    overflow: visible; /* Allows the entire text to be visible */
+    white-space: normal; /* Allows text to wrap */
+    background-color: rgba(0, 0, 255, 0.2); /* Slightly darker background on hover */
+    padding: 30px; /* Adds padding for better readability */
+    align-items: center; /* Center vertically */
+    justify-content: center; /* Center horizontally */
+    text-align: center; /* Center the text inside the box */
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+}
